@@ -134,6 +134,12 @@ def main():
     result6 = DF1B.merge(DF2, left_on=["P1", "P2","P3"], right_on=["P1", "P2","P3"])
     dpp(result6, cap="Fewer rows on left than right")
 
+
+    # merger on a subset
+    dpp(DF3)
+    dpp(DF4)
+    result7 = DF3.merge(DF4, left_on=["P1", "P3"], right_on=["P1", "P3"])
+    dpp(result7, cap="subset of parameters")
 if __name__ == '__main__':
 
     main()
