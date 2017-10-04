@@ -24,6 +24,11 @@ DF1 = pd.DataFrame({"P1": "enabled",
                     "R"  : [1,2,3,4]
                   })
 
+DF1C = pd.DataFrame({"P1": "enabled",
+                    "P2":  ["on", "on", "off", "off"],
+                    "P3": ["on", None, "on", None],
+                    "R"  : [1,2,3,4]
+                  })
 #short DF1
 DF1B = pd.DataFrame({"P1": "enabled",
                     "P2":  ["on", "on", "off"],
@@ -80,9 +85,9 @@ def dpp(dataframe, cap = ''):
     print("\r" + cap + "(" + (name_of_object(dataframe) or '') +  "):")
     pp(dataframe)
 
-def main():
+def merges():
     """
-    Main function
+    A set of merge exercises
     """
     dpp(DF1)
     dpp(DF2)
@@ -140,6 +145,24 @@ def main():
     dpp(DF4)
     result7 = DF3.merge(DF4, left_on=["P1", "P3"], right_on=["P1", "P3"])
     dpp(result7, cap="subset of parameters")
+
+def find_and_swap():
+    '''A set of table manipulations'''
+    # df.loc[df['line_race'] == 0, 'rating'] = 0
+    # https://stackoverflow.com/questions/18196203/how-to-conditionally-update-dataframe-column-in-pandas
+
+    dpp(DF1)
+    DF1.loc[DF1['P3'] == 'off', 'P1'] =' disabled'
+    dpp(DF1)
+    
+    dpp(DF1C)
+    DF1C.loc[DF1C['P3'].isnull(), 'P1'] =' disabled'
+    dpp(DF1C)
+    DF1C.loc[DF1C['P3'].isnull(), 'P3'] ='off'
+    dpp(DF1C, cap="with P3 'fixed'")
+    
+    
 if __name__ == '__main__':
 
-    main()
+#     merges()
+    find_and_swap()
