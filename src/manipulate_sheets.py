@@ -14,6 +14,7 @@ from openpyxl.formatting.rule import ColorScaleRule, CellIsRule, FormulaRule
 from openpyxl.formatting import Rule
 
 from openpyxl.styles.colors import RED
+from openpyxl.styles.fills import FILL_NONE
 
 # Auto Width
 # https://stackoverflow.com/questions/13197574/openpyxl-adjust-column-width-size
@@ -101,6 +102,7 @@ def main():
         auto_width(wb[sheet])
     
     wb['Results'].column_dimensions.group(start='K', end='Q', hidden=True)
+
     wb['Results'].conditional_formatting.add('AZ:AZ',
                                              CellIsRule(operator='greaterThan',
                                                         formula=['5'],
@@ -111,11 +113,7 @@ def main():
                                                         formula=['-5'],
                                                         fill=redFill,
                                                         stopIfTrue=True))
-#     wb['Results'].conditional_formatting.add('AZ:AZ',
-#                                              CellIsRule(operator='greaterThan',
-#                                                         formula=['5'],
-#                                                         fill=redFill))
-#     
+    wb.active = wb.index(wb['Results'])  #TODO Result for report
     wb.save(filename='51-SysTstDev-192-SysTstDev-5PLUS.xlsx')
     
 if __name__ == '__main__':

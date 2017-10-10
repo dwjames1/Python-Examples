@@ -11,8 +11,10 @@ Sandbox to create some dataframes and merge them,  simple examples.
 '''
 # https://stackoverflow.com/questions/41815079/pandas-merge-join-two-data-frames-on-multiple-columns
 from pprint import pprint as pp
-
+import time
 import pandas as pd
+from pandas.io.excel import ExcelWriter
+from manipulate_sheets import auto_width
 # import numpy as np
 # import matplotlib.pyplot as plt
 
@@ -34,6 +36,12 @@ DF1B = pd.DataFrame({"P1": "enabled",
                     "P2":  ["on", "on", "off"],
                     "P3": ["on", "off", "on"],
                     "R"  : [1,2,3]
+                  })
+
+DF1D = pd.DataFrame({"P1": "ReallyReallyReallyReally wide",
+                    "P2":  ["on", "on", "off", "off"],
+                    "P3": ["on", "off", "on", "off"],
+                    "R"  : [1,2,3,4]
                   })
 
 DF2 = pd.DataFrame({"P1": "enabled",
@@ -161,8 +169,23 @@ def find_and_swap():
     DF1C.loc[DF1C['P3'].isnull(), 'P3'] ='off'
     dpp(DF1C, cap="with P3 'fixed'")
     
+def excel_format():
+    '''format in memory'''
+    START = time.strftime('%y%m%d-%H%M%S')
+    OUTFILE = 'TEST' + START + '.xlsx'
+       
+    writer = ExcelWriter(OUTFILE)
+    DF1D.to_excel(writer)
+    writer.save()
+    wb = writer.book
+    input("Check for file  ")
+    auto_width(wb['Sheet1'])
+    wb.save(writer.path)
+    
+    
     
 if __name__ == '__main__':
 
 #     merges()
-    find_and_swap()
+#     find_and_swap()
+    excel_format()
