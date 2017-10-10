@@ -3,7 +3,7 @@ Created on Oct 2, 2017
 
 @author: djames
 
-Sandbox to create some dataframes and merge them,  simple examples.
+Sandbox to create some dataframes and merge them, simple examples.
 
 
 
@@ -23,38 +23,38 @@ from manipulate_sheets import auto_width
 DF1 = pd.DataFrame({"P1": "enabled",
                     "P2":  ["on", "on", "off", "off"],
                     "P3": ["on", "off", "on", "off"],
-                    "R"  : [1,2,3,4]
+                    "R"  : [1, 2, 3, 4]
                   })
 
 DF1C = pd.DataFrame({"P1": "enabled",
                     "P2":  ["on", "on", "off", "off"],
                     "P3": ["on", None, "on", None],
-                    "R"  : [1,2,3,4]
+                    "R"  : [1, 2, 3, 4]
                   })
 #short DF1
 DF1B = pd.DataFrame({"P1": "enabled",
                     "P2":  ["on", "on", "off"],
                     "P3": ["on", "off", "on"],
-                    "R"  : [1,2,3]
+                    "R"  : [1, 2, 3]
                   })
 
 DF1D = pd.DataFrame({"P1": "ReallyReallyReallyReally wide",
                     "P2":  ["on", "on", "off", "off"],
                     "P3": ["on", "off", "on", "off"],
-                    "R"  : [1,2,3,4]
+                    "R"  : [1, 2, 3, 4]
                   })
 
 DF2 = pd.DataFrame({"P1": "enabled",
                     "P2":  ["on", "on", "off", "off"],
                     "P3": ["on", "off", "on", "off"],
-                    "R"  : [5,6,7,8]
+                    "R"  : [5, 6, 7, 8]
                   })
 #extra 'P" column
 DF3 = pd.DataFrame({"P1": "enabled",
                     "P2":  ["on", "on", "off", "off"],
                     "P3": ["on", "off", "on", "off"],
                     "P4": ["on", "off", "on", "off"],
-                    "R"  : [11,12,13,14]
+                    "R"  : [11, 12, 13, 14]
                   })
 
 #shorter
@@ -110,11 +110,11 @@ def merges():
     '''left_on and right_on must be the same length, default suffixes ar
     _x and _y
     '''
-    results2 = DF1.merge(DF2, left_on=["P1","P2","P3"], right_on=["P1","P2","P3"])
+    results2 = DF1.merge(DF2, left_on=["P1", "P2", "P3"], right_on=["P1", "P2", "P3"])
     dpp(results2)
 
     #Merge on two
-    results3 = DF1.merge(DF2, left_on=["P2","P3"], right_on=["P2","P3"])
+    results3 = DF1.merge(DF2, left_on=["P2", "P3"], right_on=["P2", "P3"])
     dpp(results3, cap="Merge on P2 and P3")
 
     # hm... looks like the order is x, commmon x, y
@@ -123,14 +123,14 @@ def merges():
     # merge, with extra column in b
     dpp(DF1)
     dpp(DF3)
-    results4 = DF1.merge(DF3, left_on=["P1", "P2","P3"], right_on=["P1", "P2","P3"])
+    results4 = DF1.merge(DF3, left_on=["P1", "P2", "P3"], right_on=["P1", "P2", "P3"])
     dpp(results4)
 
     # merge, using column that is not in DF1
     try:
         dpp(DF1)
         dpp(DF3)
-        results5 = DF1.merge(DF3, left_on=["P1","P2","P3","P4"], right_on=["P1", "P2","P3", "P4"])
+        results5 = DF1.merge(DF3, left_on=["P1", "P2", "P3", "P4"], right_on=["P1", "P2", "P3", "P4"])
         dpp(results5)
     except KeyError as err:
         print(repr(err))
@@ -138,13 +138,13 @@ def merges():
 
     # merge shorter into longer
     dpp(DF4)
-    result5 = DF1.merge(DF4, left_on=["P1", "P2","P3"], right_on=["P1", "P2","P3"])
+    result5 = DF1.merge(DF4, left_on=["P1", "P2", "P3"], right_on=["P1", "P2", "P3"])
     dpp(result5, cap="Fewer rows on right than left")
 
     # merger longer(b), into shorter(a)
     dpp(DF1B)
     dpp(DF2)
-    result6 = DF1B.merge(DF2, left_on=["P1", "P2","P3"], right_on=["P1", "P2","P3"])
+    result6 = DF1B.merge(DF2, left_on=["P1", "P2", "P3"], right_on=["P1", "P2", "P3"])
     dpp(result6, cap="Fewer rows on left than right")
 
 
@@ -162,28 +162,25 @@ def find_and_swap():
     dpp(DF1)
     DF1.loc[DF1['P3'] == 'off', 'P1'] =' disabled'
     dpp(DF1)
-    
+
     dpp(DF1C)
     DF1C.loc[DF1C['P3'].isnull(), 'P1'] =' disabled'
     dpp(DF1C)
     DF1C.loc[DF1C['P3'].isnull(), 'P3'] ='off'
     dpp(DF1C, cap="with P3 'fixed'")
-    
+
 def excel_format():
     '''format in memory'''
     START = time.strftime('%y%m%d-%H%M%S')
     OUTFILE = 'TEST' + START + '.xlsx'
-       
+
     writer = ExcelWriter(OUTFILE)
     DF1D.to_excel(writer)
     writer.save()
     wb = writer.book
-    input("Check for file  ")
     auto_width(wb['Sheet1'])
     wb.save(writer.path)
-    
-    
-    
+
 if __name__ == '__main__':
 
 #     merges()
