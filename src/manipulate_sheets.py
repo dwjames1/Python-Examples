@@ -66,7 +66,7 @@ def set_row_style(sheet, row, style):
         cell.style = style
 
 
-def col_match(sheet, row, value):
+def _col_match(sheet, row, value):
     """
     find all columns matching value
 
@@ -109,8 +109,8 @@ def main():
     '''Main'''
 
     my_wb = load_workbook(filename='51-SysTstDev-192-SysTstDev-5.xlsx')
-    print(col_match(my_wb['Results'], '2:2', 'diff'))
-    tclm = col_match(my_wb['Results'], '2:2', 'diff')
+    print(_col_match(my_wb['Results'], '2:2', 'diff'))
+    tclm = _col_match(my_wb['Results'], '2:2', 'diff')
     thresh_column = tclm + ':' + tclm
     for sheet in VERT_ROWS_SHEETS:
         try:
@@ -127,7 +127,7 @@ def main():
                                                            formula=['5'],
                                                            fill=GREEN_FILL,
                                                            stopIfTrue=True))
-    my_wb['Results'].conditional_formatting.add('AZ:AZ',
+    my_wb['Results'].conditional_formatting.add(thresh_column,
                                                 CellIsRule(operator='lessThan',
                                                            formula=['-5'],
                                                            fill=RED_FILL,
