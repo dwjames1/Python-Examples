@@ -64,7 +64,7 @@ DF4 = pd.DataFrame({"P1": "enabled",
                     "R": [15, 16, 17]
                    })
 
-
+frames = [DF1, DF2, DF3, DF4]
 def name_of_object(arg):
     """
     Find name of an object, pull from globals if no specific __name__
@@ -185,4 +185,6 @@ if __name__ == '__main__':
 
     #     merges()
     #     find_and_swap()
-    excel_format()
+    for _ in frames:
+        dpp(_)
+
